@@ -9,7 +9,8 @@ import javax.persistence.Id;
 public class Animal {
 
     private  String type;
-    @javax.persistence.Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
 

@@ -1,6 +1,7 @@
 package com.zoo.cryptozoology.zoodemo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zoo.cryptozoology.zoodemo.repository.HabitatRepository;
 import com.zoo.cryptozoology.zoodemo.repository.ZooRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Properties;
+
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -25,6 +29,9 @@ class ZoodemoApplicationTests {
 
     @Autowired
     ZooRepository zooRepository;
+
+    @Autowired
+    private HabitatRepository habitatRepository;
 
     @BeforeEach
     public void setup(){
@@ -68,15 +75,20 @@ class ZoodemoApplicationTests {
 
     @Test
     public void whenAddAnimaltoHabtat() throws Exception{
-        Animal animal = new Animal("Tiger", "walking");
-        //Habitat habitat = new Habitat("forest", "waking");
+        Animal animal = new Animal("Tiger", "walkinggggg");
+        Habitat habitat = new Habitat("forest", "wakinggg");
+
         animal = zooRepository.save(animal);
+       // habitat = habitatRepository.save(habitat);
         String postAnimal = mapper.writeValueAsString(animal);
 
         Long Id = animal.getId();
-        mockMvc.perform(((put("/animalhabitat/"+Id))).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(((post("/animalhabitat/"+Id))).contentType(MediaType.APPLICATION_JSON)
                 .content(postAnimal)).andExpect(status().isAccepted())
-                .andExpect(jsonPath("$.name").value("Lion")).andDo(print());
+                .andExpect(jsonPath("$.name").value("Tiger"))
+                .andExpect(jsonPath("$.habitat").isNotEmpty())
+                .andExpect(jsonPath("$.type").value("walkinggggg"))
+                .andDo(print());
     }
 
 }

@@ -1,6 +1,7 @@
 package com.zoo.cryptozoology.zoodemo.controllers;
 
 import com.zoo.cryptozoology.zoodemo.Animal;
+import com.zoo.cryptozoology.zoodemo.ZooDTO;
 import com.zoo.cryptozoology.zoodemo.services.ZooService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -43,11 +44,11 @@ public class ZooController {
         return zooService.treatAnimal(animal);
     }
 
-    @PutMapping("animalhabitat/{id}")
+    @PostMapping("animalhabitat/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void addAnimalToHabitat(@PathVariable Long id,
-                                   @RequestBody Animal animal){
-        zooService.addAnimaltoHabitat(animal);
+    public ZooDTO addAnimalToHabitat(@PathVariable Long id,
+                                     @RequestBody Animal animal){
+        return zooService.addAnimaltoHabitat(animal);
 
     }
 }
